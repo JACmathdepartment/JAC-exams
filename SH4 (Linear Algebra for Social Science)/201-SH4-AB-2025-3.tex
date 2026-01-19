@@ -1,0 +1,620 @@
+%*** Final Draft #2 - 201-SH4-AB Winter 2025 ***
+
+\documentclass[english,12pt]{exam}
+
+% Appropriate definitions
+
+\usepackage{babel,color,latexsym,makeidx,textcomp,marginnote,}
+\usepackage{amsmath,amssymb} % standard math extensions
+\usepackage{tikz} % for graphs and figures
+\usepackage{graphicx} % for including the JAC logo
+\usepackage{comment}
+\usepackage{multicol} % for question parts to span multiple columns
+\usepackage{version} % for including and excluding various elements easily
+\usepackage{xcolor} % for changing text colour; only used while working on the draft
+\usepackage{nicefrac} % for nice slanted fractions
+\usepackage{bm} % so I can use a bold font in math mode with \bm{stuff}
+\usetikzlibrary{automata, arrows.meta, positioning}
+\usepackage{wrapfig}
+
+% Version selections! %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\includeversion{coverpages}
+\excludeversion{coverpages}
+
+\includeversion{answers}
+%\excludeversion{answers}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\reversemarginpar
+
+%% The spacing for maximal room on sheet
+%\textheight 10in
+%\textwidth  155mm
+
+% change the following five definitions as needed
+\newcommand{\Date}{22 May 2025}
+\newcommand{\Time}{{\upshape 14h--17h}}
+\newcommand{\Course}{Linear Algebra}
+\newcommand{\CourseNumber}{201-SH4-AB}
+\newcommand{\Instructors}{Kenzy Malek, Alexandre Panassenko, Karen Solsten}
+
+\newcommand{\norm}[1]{\lVert#1\rVert}
+
+\newcommand\RCircle[1]{%
+  \tikz[baseline=(char.base)]\node[circle,draw,inner sep=2pt,color=red,text=black] (char) {#1};}
+
+%% Defines a question worth anything else than 1 point
+\newcounter{ques}
+\def\theques{\arabic{ques}}
+\def\ques#1{
+%            \bigskip 
+%            \bigskip
+            \bigskip
+            \noindent 
+            \addtocounter{ques}{1}
+            {\bf Question \theques:\ ({\em #1 pts})}
+            }
+
+
+%% Defines a question worth 1 point
+\def\que1{
+%            \bigskip 
+%            \bigskip
+            \bigskip
+            \noindent 
+            \addtocounter{ques}{1}
+            {\bf Question \theques:\ ({\em 1 pt})}
+            }
+
+
+% exam document class formatting commands
+\extrawidth{1in}
+\extraheadheight{-0.25in}
+\extrafootheight{-0.375in}
+\renewcommand{\questionlabel}{\bfseries\thequestion.} % bold question numbers
+\pagestyle{headandfoot}
+
+
+\lhead{Final Examination}
+\chead{\CourseNumber}
+\rhead{\Date}
+\headrule 
+
+%\lfoot{\iflastpage{Total: \numpoints~points}{}}
+\cfoot{Page \thepage\ of \numpages}
+%\rfoot{\iflastpage{This is the end of the examination.}{%
+%  \ifincomplete{%
+%    Question~{\IncompleteQuestion} continues on the next page.}{%
+%    Please go on to the next page.}}}
+
+% install fonts for the title page
+\usepackage{oldgerm}
+\newfont{\yinit}{yinit at 40pt}
+\def\yinitial#1{
+\hskip-2mm
+\lower2mm
+\hbox{\yinit #1}
+\hskip-2mm}
+
+% This bit sets up the answers to be printed at the end
+% Template based on http://tex.stackexchange.com/questions/15350/showing-solutions-of-the-questions-separately
+
+\newbox\allanswers
+\setbox\allanswers=\vbox{}
+
+\newenvironment{answer}
+{%
+  \global\setbox\allanswers=\vbox\bgroup
+  \unvbox\allanswers
+}%
+{%
+  \bigbreak
+  \egroup
+}
+
+\newcommand{\showallanswers}{\par\unvbox\allanswers}
+
+% Start document
+
+\begin{document}
+
+\begin{coverpages}
+
+\begin{center}
+\vspace*{-8ex}
+\includegraphics[scale=0.25]{jaclogovertical.jpg}
+\vskip 5ex \par
+\scshape
+{\huge%
+\yinitial{D}epartment of%
+\hskip .6em\yinitial{M}athematics \\[.67ex]
+Final Examination}
+\vskip 2ex \par
+{\Large\upshape\Date\\[.67ex]\Time}
+\vskip 1ex \par
+{\huge \Course \vskip 1ex
+\CourseNumber}
+\vskip 5ex
+\begin{minipage}[t]{6in}
+\normalsize Instructors:\enspace
+\hangindent = 1.15in
+{\upshape \raggedright\Instructors}
+\end{minipage}
+\vskip 6ex
+\begin{minipage}[t]{5in}
+\normalsize \hbox to \textwidth
+{Student name:\enspace\hrulefill}
+\vskip 2ex
+\hbox to \textwidth
+{Student number:\enspace\hrulefill}
+\vskip 2ex
+\hbox to \textwidth
+{Instructor:\enspace\hrulefill}
+\vskip 2ex
+\end{minipage}
+\vskip 6ex
+Instructions
+\vskip 2ex
+\begin{minipage}[t]{6.25in}
+\begin{enumerate}\upshape
+\item
+Do not open this booklet before
+the examination begins.
+\item
+Check that this booklet contains
+{\numpages} \if{\numpages=1}{page}\else{pages}\fi,
+excluding this cover page.
+\item
+Write all of your solutions in this booklet
+and show all supporting work. 
+%\item
+%Give all answers in simplified exact form.
+\item
+If the space provided is not sufficient,
+continue the solution on the opposite page.
+\item
+The only calculators allowed on this exam are models beginning with Sharp EL-531.
+\item
+Please double check that you have no cell phone or other prohibited device/materials on your
+person. If so, please present it to a teacher.
+%\item
+%Crying is allowed, but please do so quietly
+%\item
+%Do not wipe tears on Exam paper
+\end{enumerate}
+\end{minipage}
+\end{center}
+
+\vskip 5ex
+
+%\begin{center}
+%\large\sffamily
+%The use of calculators is neither needed nor permitted.
+%\end{center}
+ \vfill
+
+\end{coverpages}
+
+%Q1
+\ques{8}
+
+\noindent Solve each of the following systems of equations, or show that it is inconsistent. If there are infinitely many solutions, provide the general solution.
+
+\vspace{10pt}
+
+\noindent \textbf{a)} \ $\left\{\begin{array}{rcrcr} x & + & y & = & 3 \\ 2x & - & y & = & 7 \\ 4x & + & y & = & 10 \\ \end{array} \right.$ \ \ \ \textbf{b)} \ $\left\{\begin{array}{rcrcrcrcr} 2x_1 & - & 3x_2 & + & x_3 & - & x_4 & = & 1 \\ -x_1 & + & 2x_2 & & & + & x_4 & = & 1 \\ & - & x_2 & + & x_3 & + & x_4 & = & 3 \\ \end{array} \right.$
+
+\begin{answer}
+\theques. \ a) \ Inconsistent \ \ \ b) \ $(-1+t, \ 0, \ 3-t, \ t)$, \ $t \in \mathbb{R}$
+\end{answer}
+
+\vspace{10pt}
+
+%Q2
+\ques{4}
+
+\noindent A home baker sells three types of bread: plain, olive and raisin. One plain loaf is made using 2 ounces  of sugar and is sold for 4 dollars. One olive loaf is made using 2 ounces of sugar and is sold for 5 dollars. Finally, a raisin loaf is made from 3 ounces of sugar and is sold for 8 dollars. Last week, the baker used a total of 34 ounces of sugar and earned a total of 75 dollars.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ Define all the necessary variables and set up the system of equations to determine how many of each type of bread were sold last week. \textbf{Do not solve.}
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ Given that the augmented matrix for the system reduces as shown below, give the general solution for the system. \ \ $\left[ \begin{array}{ccc|c} 1 & 0 & -1/2 & 10 \\ 0 & 1 & 2 & 7 \\ \end{array} \right]$
+
+\vspace{5pt}
+
+\noindent{c)} \ Find all possible realistic solutions.
+
+\begin{answer}
+\theques. \ a) \ $\begin{array}{rcl} x_1 & = & \text{\# of plain loaves} \\ x_2 & = & \text{\# of olive loaves} \\ x_3 & = & \text{\# of raisin loaves} \\ \end{array} \ \ \left\{ \begin{array}{rcrcrcl} 2x_1 & + &  2x_2 & + & 3x_3 & = & 34 \\ 4x_1 & + & 5x_2 & + & 8x_3 & = & 75 \\ \end{array} \right. $
+
+b) \ $(10+\nicefrac{1}{2} \, t, \ 7-2t, \ t)$ \ \ c) \ $t=0 \ \rightarrow (10,7,0) \ \ t=2 \ \rightarrow (11,3,2)$
+\end{answer}
+
+\vspace{10pt}
+
+%Q3
+\ques{4}
+
+\noindent Given the system of equations: $\left\{ \begin{array}{rcrcrcr} x & - & y & + & kz & = & 2 \\ 3x & + & 7y & + & 2z & = & 7 \\ kx & - & ky & + & 25z & = & 3 \end{array} \right. $
+
+\noindent Find all the value(s) of $k$ (if any) such that the system has:
+
+\noindent \textbf{a)} \ no solution. \ \ \ \textbf{b)} \ a unique solution. \ \ \ \textbf{c)} \ infinitely many solutions.
+
+\begin{answer}
+\theques. \ a) \ $k = \pm 5$ \ \ b) \ $k \neq \pm 5$ \ \ c) \ Impossible.
+\end{answer}
+
+\vspace{10pt}
+
+%Q4
+\ques{3}
+
+\noindent Given the $2 \times 2$ matrices $A \ = \ \begin{bmatrix} 1 & -3 \\ 3k-1 & k \\ \end{bmatrix}$ and $B = \begin{bmatrix} k-1 & 5 \\ 1-2k & 0 \\ \end{bmatrix}$, find all the value(s) of $k$ (if any) so that $A+B$ is invertible.
+
+\begin{answer}
+\theques. \ $k \in \mathbb{R}\backslash\{0,2\}$
+\end{answer}
+
+\vspace{10pt}
+
+%Q5
+\ques{6}
+
+\noindent Consider the matrix $A \ = \ \begin{bmatrix} 1 & 1 & 3 \\ 2 & -2 & 1 \\ 0 & 1 & 0 \\ \end{bmatrix}$.
+
+\noindent \textbf{a)} \ Find adj$(A)$. \ \ \ \textbf{b)} \ Use the adjoint found in \textbf{a)} to find $A^{-1}$.
+
+\begin{answer}
+\theques. \ a) \ $\text{adj}(A) = \begin{bmatrix} -1 & 3 & 7 \\ 0 & 0 & 5 \\ 2 & -1 & -4 \\ \end{bmatrix}$ \ \ \ b) \ $\text{det}(A)=5 \ \ \ A^{-1} = \begin{bmatrix} \nicefrac{-1}{5} & \nicefrac{3}{5} & \nicefrac{7}{5} \\ 0 & 0 & 1 \\ \nicefrac{2}{5} & \nicefrac{-1}{5} & \nicefrac{-4}{5} \\ \end{bmatrix}$
+\end{answer}
+
+\vspace{10pt}
+
+%Q6
+\ques{3}
+
+\noindent Let $A$ and $B$ be invertible matrices. Solve for $X$ in the equation $(A^{T}X+B)^{T}=B+B^{T}$.
+
+\begin{answer}
+\theques. \ $X \ = \ \big(A^T\big)^{-1} B^T$ \ \ or \ \ $\Big( B A^{-1} \Big)^T$
+\end{answer}
+
+\pagebreak
+
+%Q7
+\ques{7}
+
+\noindent Let $A = \begin{bmatrix} 2 & 3 \\ 1 & 9 \\ \end{bmatrix}$, $B =  \begin{bmatrix} 2 & -1 \\ -4 & 2 \\ \end{bmatrix}$ and $C =  \begin{bmatrix} 1 & -5 & 3 \\ 2 & 1 & 0 \\ \end{bmatrix}$. Find, or identify as undefined:
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ $(2I-BA)^T$ \ \ \ \textbf{b)} \ $AC+CB$ \ \ \ \textbf{c)} \ $B^2$
+
+\begin{answer}
+\theques. \ a) \ $\begin{bmatrix} -1 & 6 \\ 3 & -4 \\ \end{bmatrix}$ \ \ b) \ Undefined, cannot multiply $CB$ \ \ c) \ $\begin{bmatrix} 8 & -4 \\ -16 & 8 \\ \end{bmatrix}$
+\end{answer}
+
+\vspace{10pt}
+
+%Q8
+\ques{7}
+
+\noindent Suppose that $A = \begin{bmatrix} a & b & c \\ d & e & f \\ g & h & i \\ \end{bmatrix}$ with $\det{A}=5$, $B$ is a $3 \times 3$ diagonal matrix with all $4'$s on the main diagonal, and $C$ is a non-invertible $3 \times 3$ matrix. Evaluate each of the following, or state that there is not enough information to do so.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ $\det{\begin{bmatrix} g & h & i \\ 3g+5d & 3h+5e & 3i+5f \\ 4a & 4b & 4c \\ \end{bmatrix}}$ \ \ \ \textbf{b)} \ $\det{(2A^4B^{-1})}$ \ \ \ \textbf{c)} \ $\det{(A^TB+A^TC)}$ \ \ \ \textbf{d)} \ $\det{(AC+BC)}$
+
+\begin{answer}
+\theques. \ a) \ $-100$ \ \ b) \ $\dfrac{625}{8}$ \ \ c) \ Not enough information. \ \ d) \ 0
+\end{answer}
+
+\vspace{10pt}
+
+%Q9
+\ques{4}
+
+\noindent A clothing company has three factories. Each day factory A can produce 1000 sweats and 1500 hoodies, factory B can produce 1300 sweats and 1800 hoodies, and factory C can produce 1500 sweats and 2000 hoodies. The company wants to close factory B. Is it possible to find some combination of the outputs of the other factories that will equal the output of factory B? If so, what is the combination?
+
+\begin{answer}
+\theques. \ Yes, it's possible. The output of B is equivalent to $\dfrac{2}{5}$ of the output of A plus $\dfrac{3}{5}$ of the output of C.
+\end{answer}
+
+\vspace{10pt}
+
+%Q10
+\ques{8}
+
+\noindent Given the points $A(3,1,0)$, $B(0,1,-2)$, and $C(1,0,3)$:
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ Calculate $\norm{\overrightarrow{AB}}$.
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ Find a unit vector in the opposite direction of $\overrightarrow{AB}$.
+
+\vspace{5pt}
+
+\noindent \textbf{c)} \ Find parametric equations for the line passing through $A$ and $B$.
+
+\vspace{5pt}
+
+\noindent \textbf{d)} \ Is the point $D(9,1,4)$ on the line obtained in part c)? Justify.
+
+\vspace{5pt}
+
+\noindent \textbf{e)} \ Find an equation in standard form for the plane $\mathcal{P}$ passing through the points $A$, $B$ and $C$.
+
+\begin{answer}
+\theques. \ a) \ $\norm{\overrightarrow{AB}} = \sqrt{13}$ \ \ b) \ $\begin{bmatrix} \nicefrac{3}{\sqrt{13}} \\ 0 \\ \nicefrac{2}{\sqrt{13}} \\ \end{bmatrix}$ \ \ c) \ $\left\{ \begin{array}{rcl} x & = & 3+3t \\ y & = & 1 \\ z & = & 2t \\ \end{array} \right. $ \ \ d) \ Yes. \ \ e) \ $2x-13y-3z=-7$
+\end{answer}
+
+\vspace{10pt}
+
+%Q11
+\ques{6}
+
+\noindent Given the plane $\mathcal{P}:3x-y+2z=12$.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ Find the coordinates of the $x$, $y$ and $z$ intercepts of $\mathcal{P}$, if any.
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ Find an equation in vector form for $\mathcal{P}$.
+
+\vspace{5pt}
+
+\noindent \textbf{c)} \ Is the line given by  $\begin{bmatrix} x \\ y \\ z \end{bmatrix} = \begin{bmatrix} 3 \\ -2 \\ 5 \end{bmatrix} + t \begin{bmatrix} 2 \\ 8 \\ 1 \end{bmatrix}$ parallel, perpendicular, or neither to the plane $\mathcal{P}$?
+
+\begin{answer}
+\theques. \ a) \ $x$-int: $(4,0,0)$ \ $y$-int: $(0,-12,0)$ \ $z$-int: $(0,0,6)$ \ \ b) \ $\begin{bmatrix} x \\ y \\ z \\ \end{bmatrix} = \begin{bmatrix} 4 \\ 0 \\ 0 \\ \end{bmatrix} + s \begin{bmatrix} \nicefrac{1}{3} \\ 1 \\ 0 \\ \end{bmatrix} + t \begin{bmatrix} \nicefrac{-2}{3} \\ 0 \\ 1 \\ \end{bmatrix}$
+
+c) \ The line is parallel to the plane.
+\end{answer}
+
+\pagebreak
+
+%Q12
+\ques{3}
+
+\noindent Answer TRUE or FALSE for each part below and briefly justify:
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ If $A$ is a 4 $\times$ 3 matrix, then $AX=0$ must have only the trivial solution.
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ $\overrightarrow{0}$ can be expressed as a linear combination of the nonzero vectors $\overrightarrow{v_{1}},\overrightarrow{v_{2}}$, and $\overrightarrow{v_{3}}$.
+
+\vspace{5pt}
+
+\noindent \textbf{c)} \ If $A$ is an $n \times n$ matrix and $\det(A)=0$, then $AX=B$ must be inconsistent.
+
+\begin{answer}
+\theques. \ a) \ False \ \ b) \ True \ \ c) \ False
+\end{answer}
+
+\vspace{10pt}
+
+%Q13
+\ques{6}
+
+\noindent In the country of Faraway, there are two internet companies: Fastlink and Slowpoke. Analysis has shown that if a person uses Fastlink for their internet, there is a 90\% chance that they will use Fastlink again the following year. If a person uses Slowpoke for their internet, there is a 20\% chance that they will use SlowPoke again the following year.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ Write down a transition matrix $P$ associated with this Markov chain.
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ If a person in Faraway uses Slowpoke for their internet this year, what is the probability that they will use Fastlink in two years?
+
+\vspace{5pt}
+
+\noindent \textbf{c)} \ Find the steady state vector $\overrightarrow{q}$ associated with the matrix $P$. Give your answers as fractions.
+
+\vspace{5pt}
+
+\noindent \textbf{d)} \ In the very distant future, what is the probability that someone in Faraway will use Slowpoke?
+
+\begin{answer}
+\theques. \ a) \ If State 1 = Fastlink and State 2 = Slowpoke, then $P = \begin{bmatrix} 0.9 & 0.8 \\ 0.1 & 0.2 \\ \end{bmatrix}$
+
+b) \ 0.88 \ \ c) $\overrightarrow{q} = \begin{bmatrix} \nicefrac{8}{9} \\ \nicefrac{1}{9} \\ \end{bmatrix}$ \ \ d) \ $\dfrac{1}{9}$
+\end{answer}
+
+\vspace{10pt}
+
+%Q14
+\ques{5}
+
+\noindent An open economy has two industries: Nuts and Bolts. The production of \$1 in Nuts requires \$0.40 in Nuts and \$0.20 in Bolts. The production of \$1 in Bolts requires \$0.30 in Nuts and \$0.70  in Bolts.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ Which industries, if any, are profitable? Justify.
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ Find the production needed to meet an external demand of \$1200 for Nuts and \$1800 for Bolts.
+
+\vspace{5pt}
+
+\noindent \textbf{c)} \ What is the internal consumption when the external demand is met?
+
+\begin{answer}
+\theques. \ a) \ Only the Nuts industry is profitable. \ \ b) \ \$7500 of Nuts and \$11\,000 of bolts.
+
+c) \ \$6300 of Nuts and \$9200 of Bolts.
+\end{answer}
+
+\vspace{10pt}
+
+%Q15
+\ques{3}
+
+\noindent Consider the following matrices: $P = \begin{bmatrix} 0.2 & 0.45 \\ 0.8 & 0.65 \\ \end{bmatrix}$ and $C = \begin{bmatrix} 0.5 & 0.3 \\ 0.6 & 0.4 \\ \end{bmatrix}$.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ Is $P$ a regular transition matrix? Explain why or why not.
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ Suppose that matrix $C$ is the consumption matrix for an open economy. Is the economy productive? Explain why or why not.
+
+\begin{answer}
+\theques. \ a) \ $P$ is not even a transition matrix, the $2^{\text{nd}}$ column does not add to 1.
+
+b) \ Yes, $\big(I - C\big)^{-1} = \begin{bmatrix} 5 & \nicefrac{5}{2} \\ 5 & \nicefrac{25}{6} \\ \end{bmatrix}$ is non-negative.
+\end{answer}
+
+\vspace{10pt}
+
+%Q16
+\ques{5}
+
+\noindent A closed economy produces fabric, plastic and metal. The production of \$1 of fabric requires \$0.60 of fabric, \$0.20 of plastic, and \$0.20 of metal. The production of \$1 of plastic requires \$0.50 of fabric, \$0.20 of plastic, and \$0.30 of metal. The production of \$1 of metal requires \$0.40 of fabric, \$0.10 of plastic, and of \$0.50 metal.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ How much does each industry need to produce relative to each other in order for this economy to function?
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ If the economy produces \$12\,000 worth of \textbf{plastic}, how much should be allocated to the other industries?
+
+\begin{answer}
+\theques. \ a) \ The production of fabric must be $\dfrac{37}{22}$ times the production of metal, and the production of plastic must be $\dfrac{6}{11}$ times the production of metal. \ \ b) \ \$37\,000 to fabric and \$22\,000 to metal.
+\end{answer}
+
+\pagebreak
+
+%Q17
+\ques{6}
+
+\noindent Use the Simplex Method to maximize $z = 10x_1 - 2x_2 + 8x_3$ subject to the constraints:
+
+\[ \left\{ \begin{array}{rcrcrcr} 2x_1 & + & 2x_2 & + & x_3 & \leqslant & 6 \\ 2x_1 & + & 3x_2 & + & 3x_3 & \leqslant & 12 \\ -x_1 & + & x_2 & + & x_3 & \leqslant & 7 \\ x_1 & , & x_2 & , & x_3 & \geqslant & 0 \\ \end{array} \right. \]
+
+\vspace{5pt}
+
+\noindent Your answer should include the maximum value of $z$, along with the corresponding feasible solution. If there is no maximum, identify an unbounded variable.
+
+\begin{answer}
+\theques. \ The maximum is $z=39$, when $x_1 = \dfrac{3}{2}$, $x_2 = 0$ and $x_3 = 3$ $\Big( s_1 = 0$, $s_2 = 0$, $s_3 = \dfrac{11}{2} \Big)$
+\end{answer}
+
+\vspace{10pt}
+
+%Q18
+\ques{6}
+
+\noindent A micro-brewery produces two types of beer using wheat, malt and yeast, in different proportions. To produce one keg of the first type, they use 2kg of wheat, 16kg of malt and 100g of yeast. To produce one keg of the second type, they need 6kg of wheat, 9kg of malt and 200g of yeast. They currently have 240kg of wheat, 576kg of malt and 8200g of yeast available. The demand for their beer is high, so they will be able to sell everything. A keg of the first type sells for \$125 and a keg of the second type sells for \$90.
+
+\vspace{5pt}
+
+\noindent \textbf{a)} \ Define your variables and set up the linear program that would be used to determine the number of kegs of each type of beer the micro-brewery should produce in order to maximize their revenue. When defining your variables, please respect the order in which things were named in the problem. \textbf{DO NOT SOLVE.}
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ Give the initial simplex table, and circle the first entry that should be turned into a pivot. \textbf{DO NOT SOLVE.}
+
+\vspace{10pt}
+
+\noindent \begin{minipage}{0.5\textwidth} Here is the final simplex table corresponding to this problem. Use it to answer the following questions \textbf{(you should not be doing \underline{any} calculations)}. \end{minipage}
+\begin{minipage}{0.5\textwidth}
+$ \left[ \begin{array}{c|cc|ccc|c} 1 & 0 & 0 & 0 & 160/23 & 63/460 & 5130 \\ \hline
+0 & 0 & 0 & 1 & 2/23 & -39/1150 & 12 \\
+0 & 1 & 0 & 0 & 2/23 & -9/2300 & 18 \\
+0 & 0 & 1 & 0 & -1/23 & 4/575 & 32 \\ \end{array} \right] $
+\end{minipage}
+
+\vspace{5pt}
+
+\noindent \textbf{c)} \ How many kegs of each type should the micro-brewery produce in order to maximize their revenue, and what is the maximum revenue?
+
+\vspace{5pt}
+
+\noindent \textbf{d)} \ When revenue is maximized, which ingredients are not completely used, and how much is left?
+
+\begin{answer}
+\theques. \ a) \ $x_1 = $ \# of kegs of Type 1 \ $x_2 = $ \# of kegs of Type 2.
+
+Maximize $R = 125x_1 + 90x_2$ subject to the constraints $\left\{ \begin{array}{rcrcl} 2x_1 & + & 6x_2 & \leqslant & 240 \\ 16x_1 & + & 9x_2 & \leqslant & 576 \\ 100x_1 & + & 200x_2 & \leqslant & 8200 \\ x_1 & , & x_2 & \geqslant & 0 \\ \end{array} \right.$
+
+b) \ There are 2 possible pivots: $\left[ \begin{array}{c|cc|ccc|c} 1 & -125 & -90 & 0 & 0 & 0 & 0 \\ \hline
+0 & 2 & \RCircle{6} & 1 & 0 & 0 & 240 \\
+0 & \RCircle{16} & 9 & 0 & 1 & 0 & 576 \\
+0 & 100 & 200 & 0 & 0 & 1 & 8200 \\ \end{array} \right] $
+
+c) \ $x_1 = $ 18 kegs of Type 1, $x_2 =$ 32 kegs of Type 2. $R=$ \$5130
+
+d) \ There are 12kg of wheat left, everything else is used completely.
+\end{answer}
+
+\vspace{10pt}
+
+%Q19
+\ques{6}
+
+\noindent Nadine wants to plan a surprise trip for her mom's birthday and will send the location of the trip as an encrypted message. She will encode her message with a Hill 2-cipher, using the encoding matrix $A = \begin{bmatrix} 7 & 25 \\ 3 & 6 \end{bmatrix}$.
+
+\vspace{5pt}
+
+% \fontsize{10}{10}
+
+% \[ \begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} \hline A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\ \hline 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 0 \\ \hline \end{array} \]
+
+% \fontsize{12}{12}
+
+% \[ \begin{array}{|c||c|c|c|c|c|c|c|c|c|c|c|c|} \hline a & 1 & 3 & 5 & 7 & 9 & 11 & 15 & 17 & 19 & 21 & 23 & 25 \\ \hline a^{-1} & 1 & 9 & 21 & 15 & 3 & 19 & 7 & 23 & 11 & 5 & 17 & 25 \\ \hline \end{array} \]
+
+% \vspace{5pt}
+
+\noindent \textbf{a)} \ Find the decryption matrix $A^{-1}$.
+
+\vspace{5pt}
+
+\noindent \textbf{b)} \ Multiply $A$ and $A^{-1}$ together to demonstrate that your decryption matrix is correct.
+
+\vspace{5pt}
+
+\noindent \textbf{c)} \ Nadine's ciphertext message to her mom is \textbf{HQCVFU}. Where will Nadine and her mom travel?
+
+\begin{answer}
+\theques. \ a) \ $A^{-1} = \begin{bmatrix} 14 & 11 \\ 19 & 25 \\ \end{bmatrix}$  \ \ b) \ $A A^{-1} = \begin{bmatrix} 79 & 52 \\ 156 & 183 \\ \end{bmatrix} \equiv \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ \end{bmatrix}$ \ \ c) \ MEXICO
+\end{answer}
+
+\vspace{10pt}
+
+% \hrule
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ANSWERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{answers}
+    \bigskip
+    %	\newpage
+    \textbf{Answers:}
+    \bigskip
+    \showallanswers
+\end{answers}
+
+\end{document}
+
+\end
